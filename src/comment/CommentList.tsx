@@ -33,13 +33,13 @@ const CommentList = ({ postId }: { postId: number }) => {
   const [error, setError] = useState<string | null>(null);
   const [editingComment, setEditingComment] = useState<Comment | null>(null);
 
-  const [myId,setMyId] = useState<number>(USER_ID);
-    useEffect(() => {
-      const storedId = localStorage.getItem("id");
-      if (storedId) {
-        setMyId(Number(storedId));
-      }
-    }, []);
+  const [myId, setMyId] = useState<number>(USER_ID);
+  useEffect(() => {
+    const storedId = localStorage.getItem("id");
+    if (storedId) {
+      setMyId(Number(storedId));
+    }
+  }, []);
 
   useEffect(() => {
     const loadComments = async () => {
@@ -58,7 +58,7 @@ const CommentList = ({ postId }: { postId: number }) => {
   }, [postId]);
 
   const handleEdit = (comment: Comment) => {
-    if(comment.user_id !== myId){
+    if (comment.user_id !== myId) {
       alert("작성자가 아닙니다.");
       return;
     }
@@ -66,20 +66,22 @@ const CommentList = ({ postId }: { postId: number }) => {
   };
 
   const handleSave = (commentId: number, newText: string) => {
-    setComments(comments.map(comment => 
-      comment.comment_id === commentId ? { ...comment, body: newText } : comment
-    ));
+    setComments(
+      comments.map((comment) =>
+        comment.comment_id === commentId ? { ...comment, body: newText } : comment
+      )
+    );
     setEditingComment(null);
   };
 
-  const handleDelete = async (commentId: number,comment:Comment) => {
-    if(comment.user_id !== myId){
+  const handleDelete = async (commentId: number, comment: Comment) => {
+    if (comment.user_id !== myId) {
       alert("작성자가 아닙니다.");
       return;
     }
-    
+
     if (window.confirm("정말 삭제하시겠습니까?")) {
-      setComments(comments.filter(comment => comment.comment_id !== commentId));
+      setComments(comments.filter((comment) => comment.comment_id !== commentId));
       const success = await fetchDeleteComment(commentId);
       if (success) {
         alert("삭제를 성공했습니다.");
@@ -97,10 +99,12 @@ const CommentList = ({ postId }: { postId: number }) => {
       <ul>
         {comments.map((comment) => (
           <CommentItem key={comment.comment_id}>
-            <span><strong>익명[{comment.user_id}]</strong>: {comment.body}</span>
+            <span>
+              <strong>{comment.user_id === -1 ? "비회원" : `익명[${comment.user_id}]`}</strong>: {comment.body}
+            </span>
             <span>
               <Button onClick={() => handleEdit(comment)}>수정</Button>
-              <Button onClick={() => handleDelete(comment.comment_id,comment)}>삭제</Button>
+              <Button onClick={() => handleDelete(comment.comment_id, comment)}>삭제</Button>
             </span>
           </CommentItem>
         ))}

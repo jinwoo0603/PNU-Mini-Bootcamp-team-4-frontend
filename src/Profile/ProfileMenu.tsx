@@ -52,14 +52,26 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
   }, []);
 
   const handleCreateProfile = () => {
+    if(myId === -1){
+      alert("로그인을 해주세요.");
+      return;
+    }
     navigate(`/profileCreate?userId=${userId}`);
   };
 
   const handleEditProfile = () => {
+    if(myId === -1){
+      alert("로그인을 해주세요.");
+      return;
+    }
     navigate(`/profileEdit?userId=${userId}`);
   };
 
   const handleDelete = async () => {
+    if(myId === -1){
+      alert("로그인을 해주세요.");
+      return;
+    }
     if (window.confirm("정말 삭제하시겠습니까?")) {
       const success = await fetchDeleteProfile(userId);
       if (success) {
@@ -70,8 +82,11 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
   };
 
   const handleGetFriends = () => {
+    if(myId === -1){
+      alert("로그인을 해주세요.");
+      return;
+    }
     setIsFriendModalOpen(true);
-    
   };
 
   return (

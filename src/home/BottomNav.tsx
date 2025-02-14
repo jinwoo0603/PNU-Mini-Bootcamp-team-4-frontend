@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AiFillHome, AiOutlineSearch, AiOutlineEdit, AiFillQuestionCircle, AiOutlineQq} from "react-icons/ai";
+import { AiFillHome, AiOutlineEdit, AiFillQuestionCircle, AiOutlineQq} from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import AccountModal from "../account/AccountModal";
+import { USER_ID } from "../assets/Constant";
 
 const BottomNavContainer = styled.nav`
   position: absolute;
@@ -33,6 +34,24 @@ const NavItem = styled.div`
 const BottomNav = () => {
   const navigate = useNavigate(); // 네비게이션 함수
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [myId,setMyId] = useState(USER_ID);
+
+  useEffect(() => {
+      const storedId = localStorage.getItem("id");
+      if (storedId) {
+        setMyId(Number(storedId));
+      }
+    }, []);
+
+  const handleCreatePost = () => {
+    if(myId === -1){
+      alert("로그인을 해주세요.");
+      return;
+    }
+    else{
+      navigate("/post-create");
+    }
+  }
 
   return (
     <>
@@ -41,13 +60,9 @@ const BottomNav = () => {
           <AiFillHome size={20} />
           홈
         </NavItem>
-        <NavItem onClick={() => navigate("/post-create")}>
+        <NavItem onClick={handleCreatePost}>
           <AiOutlineEdit size={20} />
           글쓰기
-        </NavItem>
-        <NavItem onClick={() => navigate("/search")}>
-          <AiOutlineSearch size={20} />
-          검색
         </NavItem>
         <NavItem onClick={() => navigate("/profile")}>
           <AiFillQuestionCircle size={20} />

@@ -68,6 +68,7 @@ const AccountModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("id");
     setIsLoggedIn(false);
     onClose();
     alert("로그아웃 되었습니다.");
