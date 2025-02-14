@@ -75,7 +75,7 @@ const FriendModal: React.FC<FriendModalProps> = ({ isOpen, onClose }) => {
     const storedId = localStorage.getItem("id");
     if (storedId) {
       setMyId(Number(storedId));
-      handleFriends(storedId);
+      handleFriends(Number(storedId));
     }
   }, []);
 
