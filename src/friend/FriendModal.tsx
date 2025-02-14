@@ -71,24 +71,22 @@ const FriendModal: React.FC<FriendModalProps> = ({ isOpen, onClose }) => {
   const [myId, setMyId] = useState<number>(USER_ID);
   const [friends, setFriends] = useState<Profile[]>([]);
 
-  const handleFriends = async() => {
+  useEffect(() => {
+    const storedId = localStorage.getItem("id");
+    if (storedId) {
+      setMyId(Number(storedId));
+      handleFriends(storedId);
+    }
+  }, []);
+
+  const handleFriends = async(id:number) => {
     try {
-      const data = await fetchGetFriends(myId);
+      const data = await fetchGetFriends(id);
       setFriends(data);
     } catch (error) {
       console.error("Error loading friends:", error);
     }
   }
-    
-  useEffect(() => {
-    const storedId = localStorage.getItem("id");
-    if (storedId) {
-      setMyId(Number(storedId));
-    }
-
-    handleFriends();
-  }, []);
-
   if (!isOpen) return null;
 
   return (
@@ -98,7 +96,7 @@ const FriendModal: React.FC<FriendModalProps> = ({ isOpen, onClose }) => {
         <FriendList>
           {friends.length > 0 ? (
             friends.map((friend) => (
-              <FriendItem key={friend.user_id}>ID: {friend.username} [{friend.user_id}]</FriendItem>
+              <FriendItem key={friend.user_id}>{friend.username} [ID: {friend.user_id}]</FriendItem>
             ))
           ) : (
             <NoFriendsMessage>친구가 없습니다...</NoFriendsMessage>

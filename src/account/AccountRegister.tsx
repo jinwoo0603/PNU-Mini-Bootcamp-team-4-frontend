@@ -74,6 +74,7 @@ const AccountRegister = () => {
 
       const { access_token } = response.data;
       localStorage.setItem("token", access_token);
+      localStorage.setItem("id",response.data.id)
       console.log("회원가입 성공:", response.data);
       alert("회원가입 성공");
       navigate("/");

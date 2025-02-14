@@ -118,7 +118,7 @@ const PostBlock = ({ post, onLike, onClick, onDelete }: PostBlockProps) => {
          <div onClick={onClick}>
           <Title>제목 : {post.title}</Title>
           <Body>내용 : {post.body}</Body>
-          <p>좋아요: {post.likes}개</p>
+          <p>조회수: {post.likes}</p>
         </div>
       </div>
       </div>

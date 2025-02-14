@@ -32,7 +32,7 @@ const NavItem = styled.div`
 `;
 
 const BottomNav = () => {
-  const navigate = useNavigate(); // 네비게이션 함수
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [myId,setMyId] = useState(USER_ID);
 
@@ -48,9 +48,8 @@ const BottomNav = () => {
       alert("로그인을 해주세요.");
       return;
     }
-    else{
-      navigate("/post-create");
-    }
+    console.log(myId);
+    navigate("/post-create");
   }
 
   return (
